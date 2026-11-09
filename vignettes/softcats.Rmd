@@ -1,0 +1,356 @@
+---
+title: "Regression on Predicted Categories with softcats"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Regression on Predicted Categories with softcats}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6,
+                      fig.height = 4)
+```
+
+```{r setup}
+library(softcats)
+```
+
+## The problem
+
+Suppose we want the difference in an outcome between groups, but the group
+of each observation is not recorded. A classifier trained on a small labelled
+sample gives, for every observation, the probability of belonging to each
+group. The common next step is to assign each observation its most likely
+group, or the group whose probability passes a confidence threshold, and to
+run a regression on these labels.
+
+That step loses information. Observations whose probabilities are close to
+each other receive different labels, and uncertain observations are treated
+as certain. The estimated group difference is distorted (for two groups,
+typically attenuated), and its confidence interval can miss the true value far
+more often than the nominal level allows.
+
+softcats keeps the categories soft: it estimates the group difference from
+the probabilities themselves.
+
+## A first example
+
+`sim_softcats()` simulates data in which the probabilities are calibrated,
+the true effects are known and a labelled subsample is flagged. Here there
+are three groups, `A` (the reference), `B` and `C`, three controls and an
+outcome `y`.
+
+```{r data}
+d <- sim_softcats(n = 3000, K = 3, seed = 1)
+head(d[, c("y", "x1", "x2", "x3", "prob_A", "prob_B", "prob_C")])
+attr(d, "tau")
+```
+
+`soft_lm()` takes a formula with the outcome and the controls, and the class
+probabilities. The probabilities can be given as column names, a one-sided
+formula, a matrix, or, for two groups, a single vector.
+
+```{r fit}
+fit <- soft_lm(y ~ x1 + x2 + x3, probs = c("prob_A", "prob_B", "prob_C"),
+               data = d, learner = lrn_lm(degree = 3), seed = 1)
+summary(fit)
+```
+
+The coefficients are differences from the reference group `A`, adjusted for
+the controls. The last lines of the summary report how much of the variation
+of the probabilities the controls do not explain; this is the information the
+estimate uses, discussed below.
+
+`compare_hard()` shows what the most-likely-label regression would have
+given on the same data.
+
+```{r hard}
+h <- compare_hard(fit)
+h
+```
+
+```{r hard-numbers, include = FALSE}
+est_hard <- h$estimates[h$estimates$method == "hard (cross-fitted)", ]
+lim <- drop(h$distortion %*% attr(d, "tau"))
+cov_hard <- h$coverage$coverage
+f2 <- function(v) formatC(v, digits = 2, format = "f")
+```
+
+For group `B` the hard-label estimate is `r f2(est_hard$estimate[1])`, about
+half of the true value of 1, and its interval excludes the true value. For
+group `C` it is `r f2(est_hard$estimate[2])`, close to the true value of -0.5.
+Replacing the probabilities by labels is a coarsening of the probabilities,
+and with several groups its effect is a matrix: under the assumptions below,
+the cross-fitted hard-label estimates converge to the distortion matrix times
+the true effects, so the estimate for one group also picks up the effects of the
+others through the off-diagonal entries. With the estimated matrix, the
+limits are `r f2(lim[1])` for `B` and `r f2(lim[2])` for `C`. Both groups are
+attenuated; for `C` the off-diagonal term moves the limit towards the true
+value, and the estimate in this sample is closer still because of sampling
+variation. Without the probabilities, neither the size nor the direction of
+the hard-label error can be anticipated.
+
+The last table translates the distortion into coverage. By an asymptotic
+approximation, nominal 95% intervals around the cross-fitted hard-label
+estimates would contain the true effect with probability of about
+`r f2(cov_hard[1])` for `B` and `r f2(cov_hard[2])` for `C` in repeated
+samples. The retention coefficients show that the distortion
+is not the same along the two directions of the score information.
+
+## What the method assumes
+
+The estimand is \(\tau\) in
+
+\[ E[Y \mid G, X] = \mu(X) + \sum_{k \ge 2} \tau_k \, 1\{G = k\}, \]
+
+with \(\mu\) unrestricted, so \(\tau_k\) is the partial association between
+group \(k\) (relative to the reference) and the outcome given the controls. It
+is not a causal effect. Three conditions make it estimable from the
+probabilities \(p\):
+
+1. **Conditional calibration.** \(E[1\{G = k\} \mid p, X] = p_k\): among
+   observations with the same probabilities and the same controls, the share
+   in group \(k\) equals \(p_k\). This is stronger than the marginal
+   calibration that Platt scaling or isotonic regression target.
+2. **Information beyond the controls.** The classifier must use features that
+   are not controls, so that no linear combination of the non-reference
+   probabilities is a function of the controls. If the classifier used only
+   the controls, the probabilities would be a function of the controls and the
+   effect would not be identified.
+3. **No direct effect of the extra features.** The classifier features that
+   are not controls may affect the outcome only through the group.
+
+Under these conditions, with \(a = p - E[p \mid X]\) and \(m(X) = E[Y \mid
+X]\),
+
+\[ E[a \, (Y - m(X))] = E[a a^\top] \, \tau , \]
+
+and `soft_lm()` solves the sample version of this equation. The two nuisance
+functions are estimated by cross-fitting, and the equation is
+Neyman-orthogonal in both, so moderate errors in the nuisances do not bias the
+estimate to first order. Standard errors are robust sandwich estimates.
+
+The approach is related to regression calibration in the measurement-error
+literature, which replaces an error-prone variable by its conditional
+expectation. The difference is that the probabilities are first purged of the
+controls; only the residual variation identifies the effect, and calibration
+given the controls is what makes that residual variation informative.
+
+## Choosing a learner
+
+The nuisances \(E[Y \mid X]\) and \(E[p \mid X]\) are usually non-linear, and
+the quality of the estimate depends on how well they are estimated. The
+default learner is a random forest (`lrn_ranger()`). `lrn_lm()` fits
+polynomials and is fast and deterministic; `lrn_glmnet()` fits a penalised
+polynomial; `lrn_custom()` accepts any fitting and prediction functions.
+Different learners can be used for the two nuisances.
+
+```{r learners}
+fit_rf <- soft_lm(y ~ x1 + x2 + x3, probs = ~ prob_A + prob_B + prob_C,
+                  data = d, learner = lrn_ranger(num.trees = 200),
+                  n_rep = 5, seed = 1)
+coef(fit_rf)
+
+fit_mix <- update(fit, learner = list(m = lrn_ranger(num.trees = 200),
+                                      r = lrn_lm(degree = 3)))
+coef(fit_mix)
+```
+
+Repeating cross-fitting with new fold splits (`n_rep`) reduces the dependence
+on a particular split; the reported variance then includes the spread across
+splits. With random forests, five or more splits are advisable.
+
+## Diagnostics
+
+### Information beyond the controls
+
+`score_spectrum()` decomposes \(E[a a^\top]\). For each direction it gives the
+share of the variance of the probabilities that the controls do not explain. A
+share close to zero means that the corresponding contrast is weakly
+identified, and the eigenvector shows which groups it involves.
+
+```{r spectrum}
+#| fig.alt: >
+#|   Bar chart of the canonical shares of score variance not explained by
+#|   the controls, one bar per direction.
+score_spectrum(fit)
+plot(fit, which = "spectrum")
+```
+
+### Checks on the labelled sample
+
+Calibration and the absence of direct effects can be tested where the group
+is observed. Here the flagged subsample plays that role.
+
+```{r labelled}
+lab <- d[d$labelled, ]
+calibration_check(probs = ~ prob_A + prob_B + prob_C, group = "group",
+                  data = lab, controls = ~ x1 + x2 + x3)
+exclusion_test(y ~ x1 + x2 + x3, group = "group", extra = ~ z, data = lab)
+```
+
+The calibration check reports a likelihood-ratio test of perfect calibration
+and a test of calibration given the controls. The method needs calibration
+given the controls, which the first test checks as a whole. The second test
+isolates miscalibration that depends on the controls: if it rejects,
+recalibrating the scores alone does not help, and they should be recalibrated
+on the scores and the controls together, as `recalibrate()` does (see below).
+
+### How much calibration error the conclusion tolerates
+
+If the probabilities are miscalibrated by at most \(\delta\) in every
+category, the bias of each coefficient is bounded by \(\delta\) times a factor
+that `drift_sensitivity()` estimates. Its robustness values give the drift at
+which the bound equals the estimate, and the drift at which the confidence
+interval widened by the bound reaches zero.
+
+```{r sensitivity}
+drift_sensitivity(fit, delta = 0.02)
+```
+
+### All checks at once
+
+`soft_check()` runs the checks and grades each as `ok`, `warning` or
+`problem`.
+
+```{r check}
+soft_check(fit, labelled = lab, group = "group", extra = ~ z)
+```
+
+When something is wrong, the report says so. Below, the probabilities are
+miscalibrated given the controls, and the classifier feature `z` affects the
+outcome directly.
+
+```{r check-bad}
+bad <- sim_softcats(n = 6000, K = 2, miscalibration = 1.5,
+                    direct_effect = 0.5, labelled_share = 0.4, seed = 2)
+fit_bad <- soft_lm(y ~ x1 + x2 + x3, probs = c("prob_A", "prob_B"),
+                   data = bad, learner = lrn_lm(degree = 3), seed = 2)
+soft_check(fit_bad, labelled = bad[bad$labelled, ], group = "group",
+           extra = ~ z)
+```
+
+### Recalibration
+
+When calibration fails, the labelled sample can also repair it.
+`recalibrate()` fits a multinomial logit of the observed group on the
+log-odds of the probabilities, the controls and their products. It checks the
+recalibrated probabilities on folds of the labelled sample that were not used
+to fit the map, and recomputes the estimate with the folds of the fit.
+
+Recalibration needs enough labelled observations for the map, so we simulate
+a larger sample, with three groups as in the first example. Doubling the
+log-odds of its probabilities makes them overconfident.
+
+```{r recalibrate}
+o <- sim_softcats(n = 4000, K = 3, seed = 1)
+P <- as.matrix(o[, c("prob_A", "prob_B", "prob_C")])
+o[, c("over_A", "over_B", "over_C")] <- P^2 / rowSums(P^2)
+fit_over <- soft_lm(y ~ x1 + x2 + x3, probs = c("over_A", "over_B", "over_C"),
+                    data = o, learner = lrn_lm(degree = 3), seed = 1)
+rc <- recalibrate(fit_over, labelled = o[o$labelled, ], group = "group")
+rc
+```
+
+```{r recalibrate-numbers, include = FALSE}
+re <- rc$estimates
+```
+
+The overconfident probabilities attenuate the effect of `B` to
+`r f2(re$estimate[1])`. They fail the overall calibration test but not the
+test of calibration given the controls, because the miscalibration does not
+depend on the controls. The recalibrated probabilities pass both tests out of
+fold, and the estimates, `r f2(re$estimate[3])` and `r f2(re$estimate[4])`,
+are close to the true values of 1 and -0.5. `predict()` recalibrates the
+probabilities of any data set, for example to refit the model with other
+options.
+
+```{r recalibrate-predict}
+o[, c("rec_A", "rec_B", "rec_C")] <- predict(rc, o)
+coef(update(fit_over, probs = c("rec_A", "rec_B", "rec_C")))
+```
+
+Recalibration repairs calibration, not a direct effect of the classifier
+features. In the example with both failures, the recalibrated probabilities
+pass the calibration check, but the estimate stays far from the true value
+of 1. A map that pulls the probabilities towards their mean given the
+controls can even amplify such a bias, so `recalibrate()` also reports the
+information beyond the controls before and after recalibration.
+
+```{r recalibrate-bad}
+rc_bad <- recalibrate(fit_bad, labelled = bad[bad$labelled, ],
+                      group = "group")
+rc_bad$estimates
+```
+
+The standard errors after recalibration treat the map as known. They do not
+include its estimation error and can be too small when the labelled sample is
+small compared with the estimation sample.
+
+## Two groups and confidence thresholds
+
+With two groups, `kappa_curve()` shows the attenuation factor of the label
+\(1\{p > t\}\) across thresholds \(t\). Values far below one mean that
+thresholding at \(t\) discards much of the signal.
+
+```{r kappa}
+#| fig.alt: >
+#|   Line chart of the attenuation factor kappa against the confidence
+#|   threshold, with a dashed line at one for no attenuation.
+b <- sim_softcats(n = 3000, K = 2, seed = 3)
+fit_b <- soft_lm(y ~ x1 + x2 + x3, probs = b$prob_B, data = b,
+                 learner = lrn_lm(degree = 3), seed = 3)
+kc <- kappa_curve(fit_b, thresholds = seq(0.5, 0.9, by = 0.1))
+kc[, c("threshold", "share_positive", "kappa", "estimate_hard",
+       "estimate_soft")]
+plot(kc)
+```
+
+## Weights and clusters
+
+Survey weights and clustered designs are supported. With `cluster`, standard
+errors are cluster-robust and the cross-fitting folds are formed from whole
+clusters.
+
+```{r design}
+set.seed(1)
+d$w <- runif(nrow(d), 0.5, 2)
+d$area <- rep(seq_len(300), each = 10)
+fit_w <- soft_lm(y ~ x1 + x2 + x3, probs = ~ prob_A + prob_B + prob_C,
+                 data = d, weights = ~ w, cluster = ~ area,
+                 learner = lrn_lm(degree = 3), seed = 1)
+summary(fit_w)$coefficients
+```
+
+## Working with other packages
+
+Fits support the usual model methods (`coef()`, `vcov()`, `confint()`,
+`nobs()`, `update()`), and `tidy()` and `glance()` for broom. They therefore
+work in tables produced by modelsummary and with `lmtest::coeftest()`.
+
+```{r compat}
+tidy(fit, conf.int = TRUE)
+glance(fit)
+```
+
+```{r compat-other, eval = requireNamespace("lmtest", quietly = TRUE)}
+lmtest::coeftest(fit)
+```
+
+## References
+
+Kurbucz, M. T. (2026). Coarsening latent-class probabilities: Directional
+distortion and coverage loss. arXiv preprint. doi:10.48550/arXiv.2608.11784
+
+Kurbucz, M. T. (2026). When to trust static confidence thresholding:
+Calibration diagnostics for pseudo-labelled regression. *Knowledge-Based
+Systems*, forthcoming. Earlier version: doi:10.48550/arXiv.2605.12780
+
+Chernozhukov, V., Chetverikov, D., Demirer, M., Duflo, E., Hansen, C., Newey,
+W. and Robins, J. (2018). Double/debiased machine learning for treatment and
+structural parameters. *The Econometrics Journal*, 21(1), C1--C68.
+doi:10.1111/ectj.12097
+
+Robinson, P. M. (1988). Root-N-consistent semiparametric regression.
+*Econometrica*, 56(4), 931--954. doi:10.2307/1912705

@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: >-
+  If you use softcats, please cite the methods papers given by
+  citation("softcats") in R.
+title: "softcats: Regression on Predicted Categories with Calibrated Probabilities"
+type: software
+version: 1.0.0
+license: GPL-3.0-or-later
+repository-code: "https://github.com/mtkurbucz/softcats"
+url: "https://mtkurbucz.github.io/softcats/"
+authors:
+  - family-names: Kurbucz
+    given-names: Marcell T.
+    email: m.kurbucz@ucl.ac.uk
+    affiliation: University College London
+    orcid: "https://orcid.org/0000-0002-0121-6781"
+abstract: >-
+  Estimates the association between an outcome and a latent categorical
+  group from calibrated class probabilities instead of predicted labels,
+  with cross-fitted nuisance functions, a Neyman-orthogonal moment equation
+  and robust standard errors, together with diagnostics for the conditions
+  the estimate needs.
+keywords:
+  - R
+  - predicted categories
+  - class probabilities
+  - calibration
+  - double machine learning

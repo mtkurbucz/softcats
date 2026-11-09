@@ -1,0 +1,32 @@
+url: https://mtkurbucz.github.io/softcats/
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#36765B"
+
+reference:
+- title: Estimation
+  contents:
+  - soft_lm
+  - softcats-methods
+- title: Learners
+  contents:
+  - learners
+- title: Diagnostics
+  contents:
+  - score_spectrum
+  - calibration_check
+  - exclusion_test
+  - drift_sensitivity
+  - soft_check
+- title: Recalibration
+  contents:
+  - recalibrate
+- title: Predicted labels
+  contents:
+  - compare_hard
+  - kappa_curve
+- title: Simulation
+  contents:
+  - sim_softcats

@@ -1,0 +1,49 @@
+# Package Documentation --------------------------------------------------------
+
+#' softcats: Regression on Predicted Categories with Calibrated Probabilities
+#'
+#' Many studies need the association between an outcome and a group that is
+#' not observed directly, such as an ethnic group inferred from names and
+#' places, a cell type assigned by an annotation model, or a household type
+#' predicted from administrative records. A common practice is to assign each
+#' observation its most likely category, or the category whose probability
+#' exceeds a confidence threshold, and to use these labels in a regression.
+#' This distorts the estimate (for a binary group it typically attenuates it)
+#' and can give confidence intervals whose coverage is far below the nominal
+#' level.
+#'
+#' \pkg{softcats} keeps the categories soft. \code{\link{soft_lm}()}
+#' estimates the effect from the calibrated class probabilities themselves,
+#' with cross-fitted nuisance functions, a Neyman-orthogonal score and robust
+#' (optionally weighted and clustered) standard errors. Diagnostics report
+#' whether the estimate can be trusted:
+#' \itemize{
+#'   \item \code{\link{score_spectrum}()}: how much information the
+#'     probabilities carry beyond the controls;
+#'   \item \code{\link{exclusion_test}()}: whether the classifier features
+#'     affect the outcome directly;
+#'   \item \code{\link{calibration_check}()}: whether the probabilities are
+#'     calibrated given the controls;
+#'   \item \code{\link{recalibrate}()}: recalibration of the probabilities on
+#'     labelled data, checked out of fold;
+#'   \item \code{\link{drift_sensitivity}()}: how much calibration error the
+#'     conclusion can tolerate;
+#'   \item \code{\link{compare_hard}()} and \code{\link{kappa_curve}()}: what
+#'     predicted labels would have given instead;
+#'   \item \code{\link{soft_check}()}: all of the above in one report.
+#' }
+#'
+#' Fits work with the standard model methods of R and with \pkg{broom},
+#' \pkg{modelsummary} and \code{lmtest::coeftest()}.
+#' @references
+#' Kurbucz, M. T. (2026). Coarsening latent-class probabilities: Directional
+#' distortion and coverage loss. arXiv preprint.
+#' \doi{10.48550/arXiv.2608.11784}
+#'
+#' Kurbucz, M. T. (2026). When to trust static confidence thresholding:
+#' Calibration diagnostics for pseudo-labelled regression.
+#' \emph{Knowledge-Based Systems}, forthcoming. Earlier version:
+#' \doi{10.48550/arXiv.2605.12780}
+#' @keywords internal
+#'
+"_PACKAGE"

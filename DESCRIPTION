@@ -1,0 +1,56 @@
+Package: softcats
+Type: Package
+Title: Regression on Predicted Categories with Calibrated Probabilities
+Version: 1.0.0
+Authors@R: c(
+    person("Marcell T.", "Kurbucz", email = "m.kurbucz@ucl.ac.uk",
+           role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0002-0121-6781")),
+    person("Economic and Social Research Council", role = "fnd",
+           comment = "Grant UKRI5718")
+  )
+Description: Estimates the association between an outcome and a latent
+    categorical group from calibrated class probabilities instead of
+    predicted labels. Assigning each observation its most likely category or
+    thresholding the probabilities distorts regression estimates (for a
+    binary group it typically attenuates them) and can give confidence
+    intervals whose coverage is far below the nominal level. The estimator
+    partials the controls out of the outcome and the probabilities with
+    cross-fitted machine learning nuisance functions and solves a
+    Neyman-orthogonal moment equation, with heteroskedasticity- or
+    cluster-robust standard errors and optional weights. Further functions
+    report how much information the probabilities carry beyond the controls,
+    test conditional calibration and direct effects of classifier features on
+    labelled data, recalibrate the probabilities on such data, bound the
+    bias from calibration error, and compare the estimate with hard-label
+    regressions, including the distortion and the implied coverage of the
+    cross-fitted hard-label estimate. Methods follow
+    Kurbucz (2026) <doi:10.48550/arXiv.2608.11784> for several categories and
+    coarsening, Kurbucz (2026) <doi:10.48550/arXiv.2605.12780> for confidence
+    thresholding, and the cross-fitting of Chernozhukov et al. (2018)
+    <doi:10.1111/ectj.12097>.
+License: GPL (>= 3)
+URL: https://github.com/mtkurbucz/softcats,
+    https://mtkurbucz.github.io/softcats/
+BugReports: https://github.com/mtkurbucz/softcats/issues
+Encoding: UTF-8
+Language: en-GB
+Depends:
+    R (>= 4.1.0)
+Imports:
+    generics (>= 0.1.0),
+    graphics,
+    ranger (>= 0.12.0),
+    stats
+Suggests:
+    broom,
+    glmnet,
+    knitr,
+    lmtest,
+    modelsummary,
+    rmarkdown,
+    splines,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.2
