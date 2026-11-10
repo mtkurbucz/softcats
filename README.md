@@ -1,13 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file. -->
 
-# softcats <img src="man/figures/logo.png" align="right" height="139" alt="softcats logo" />
+# softcats
+
+<div class="pkgdown-hide">
+<img src="man/figures/logo.png" align="right" height="139"
+     alt="softcats logo" />
+</div>
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/mtkurbucz/softcats/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mtkurbucz/softcats/actions/workflows/R-CMD-check.yaml)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/softcats)](https://CRAN.R-project.org/package=softcats)
 <!-- badges: end -->
 
 Regression on predicted categories with calibrated class probabilities.
@@ -145,16 +148,48 @@ can tolerate.
 
 ## Citation
 
-To cite softcats in publications, use `citation("softcats")`:
+If you use softcats in a publication, please cite the methods papers and
+the package (`citation("softcats")` gives the same entries):
 
-Kurbucz, M. T. (2026). Coarsening latent-class probabilities:
-Directional distortion and coverage loss. arXiv preprint.
-[doi:10.48550/arXiv.2608.11784](https://doi.org/10.48550/arXiv.2608.11784)
+- Kurbucz, M. T. (2026). Coarsening latent-class probabilities:
+  Directional distortion and coverage loss. *arXiv preprint*.
+  [doi:10.48550/arXiv.2608.11784](https://doi.org/10.48550/arXiv.2608.11784)
+- Kurbucz, M. T. (2026). When to trust static confidence thresholding:
+  Calibration diagnostics for pseudo-labelled regression.
+  *Knowledge-Based Systems*, forthcoming. Earlier version:
+  [doi:10.48550/arXiv.2605.12780](https://doi.org/10.48550/arXiv.2605.12780)
+- Kurbucz, M. T. (2026). *softcats: Regression on predicted categories
+  with calibrated probabilities*. R package version 1.0.0.
 
-Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-Calibration diagnostics for pseudo-labelled regression. *Knowledge-Based
-Systems*, forthcoming. Earlier version:
-[doi:10.48550/arXiv.2605.12780](https://doi.org/10.48550/arXiv.2605.12780)
+<details><summary>BibTeX</summary>
+
+``` bibtex
+@Misc{kurbucz2026coarsening,
+  title = {Coarsening Latent-Class Probabilities: Directional Distortion and Coverage Loss},
+  author = {Marcell T. Kurbucz},
+  year = {2026},
+  note = {arXiv preprint arXiv:2608.11784},
+  doi = {10.48550/arXiv.2608.11784},
+}
+
+@Article{kurbucz2026thresholding,
+  title = {When to Trust Static Confidence Thresholding: Calibration Diagnostics for Pseudo-Labelled Regression},
+  author = {Marcell T. Kurbucz},
+  journal = {Knowledge-Based Systems},
+  year = {2026},
+  note = {Forthcoming. An earlier version is available as arXiv:2605.12780},
+  url = {https://arxiv.org/abs/2605.12780},
+}
+
+@Manual{kurbucz2026softcats,
+  title = {softcats: Regression on Predicted Categories with Calibrated Probabilities},
+  author = {Marcell T. Kurbucz},
+  year = {2026},
+  note = {R package version 1.0.0},
+}
+```
+
+</details>
 
 ## Funding
 

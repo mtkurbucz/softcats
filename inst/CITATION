@@ -1,5 +1,6 @@
 bibentry(
   bibtype = "Misc",
+  key = "kurbucz2026coarsening",
   title = paste("Coarsening Latent-Class Probabilities: Directional",
                 "Distortion and Coverage Loss"),
   author = person("Marcell T.", "Kurbucz"),
@@ -15,6 +16,7 @@ bibentry(
 
 bibentry(
   bibtype = "Article",
+  key = "kurbucz2026thresholding",
   title = paste("When to Trust Static Confidence Thresholding: Calibration",
                 "Diagnostics for Pseudo-Labelled Regression"),
   author = person("Marcell T.", "Kurbucz"),
@@ -32,6 +34,7 @@ bibentry(
 
 bibentry(
   bibtype = "Manual",
+  key = "kurbucz2026softcats",
   title = paste("softcats: Regression on Predicted Categories with",
                 "Calibrated Probabilities"),
   author = person("Marcell T.", "Kurbucz"),
