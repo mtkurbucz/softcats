@@ -104,9 +104,10 @@ soft_check(fit, labelled = d[d$labelled, ], group = "group", extra = ~ z)
 #>           delta = 0.00112; smallest robustness value 0.0789 (interval: 0.0425)
 ```
 
-The [Get
-started](https://mtkurbucz.github.io/softcats/articles/softcats.html)
-article walks through the method, the diagnostics and recalibration.
+The vignette, [Regression on Predicted Categories with
+softcats](https://mtkurbucz.github.io/softcats/articles/softcats.html)
+(`vignette("softcats")` in R), walks through the method, the diagnostics
+and recalibration.
 
 ## Functions
 

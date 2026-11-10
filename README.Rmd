@@ -85,8 +85,10 @@ The diagnostics run on the subsample in which the group is observed:
 soft_check(fit, labelled = d[d$labelled, ], group = "group", extra = ~ z)
 ```
 
-The [Get started](https://mtkurbucz.github.io/softcats/articles/softcats.html)
-article walks through the method, the diagnostics and recalibration.
+The vignette,
+[Regression on Predicted Categories with softcats](https://mtkurbucz.github.io/softcats/articles/softcats.html)
+(`vignette("softcats")` in R), walks through the method, the diagnostics and
+recalibration.
 
 ## Functions
 
