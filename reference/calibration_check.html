@@ -153,7 +153,8 @@ the largest gap (default: <code>25</code>).</p></dd>
     <p>For each category (one category suffices for a binary group),
   the indicator of that category is regressed by logistic regression on a
   polynomial in the logit of its probability and on the controls, with the
-  logit as an offset, so that the null model is perfect calibration.</p><ul><li><p>The <em>overall</em> test compares the full model with the
+  logit as an offset, so that the null model is perfect calibration. This
+  extends the logistic recalibration model of Cox (1958).</p><ul><li><p>The <em>overall</em> test compares the full model with the
       offset-only model. It detects any departure from calibration,
       marginal or conditional.</p></li>
 <li><p>The <em>conditional</em> test compares the full model with the
@@ -179,9 +180,8 @@ regression. <em>Biometrika</em>, 45(3–4), 562–565.
 <a href="https://doi.org/10.1093/biomet/45.3-4.562" class="external-link">doi:10.1093/biomet/45.3-4.562</a></p>
 <p>Holm, S. (1979). A simple sequentially rejective multiple test procedure.
 <em>Scandinavian Journal of Statistics</em>, 6(2), 65–70.</p>
-<p>Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-Calibration diagnostics for pseudo-labelled regression.
-<em>Knowledge-Based Systems</em>, forthcoming. Earlier version:
+<p>Kurbucz, M. T. (2026). When to trust confidence thresholding:
+Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
 <a href="https://doi.org/10.48550/arXiv.2605.12780" class="external-link">doi:10.48550/arXiv.2605.12780</a></p>
     </div>
 

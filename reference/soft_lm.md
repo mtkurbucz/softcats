@@ -133,7 +133,9 @@ a^\top\]\\ is the residual score variance \\V^\* = E\[\mathrm{Var}(p
 The nuisances \\m(X)\\ and \\E\[p_k \mid X\]\\ are estimated by
 cross-fitting with the chosen learner. The estimator solves the sample
 version of the moment equation above, whose estimating function is
-Neyman-orthogonal in both nuisances. Without weights or clusters, the
+Neyman-orthogonal in both nuisances. This is the partialling-out
+estimator of Robinson (1988), with cross-fitted nuisance estimates and
+the probabilities as regressors. Without weights or clusters, the
 estimate is asymptotically normal with variance \\M^{-1} E\[u^2 a
 a^\top\] M^{-1} / n\\, \\M = E\[a a^\top\]\\ and \\u = Y - m(X) -
 a^\top\tau\\, when both nuisance estimates are consistent, their errors
@@ -174,9 +176,8 @@ Kurbucz, M. T. (2026). Coarsening latent-class probabilities:
 Directional distortion and coverage loss. arXiv preprint.
 [doi:10.48550/arXiv.2608.11784](https://doi.org/10.48550/arXiv.2608.11784)
 
-Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-Calibration diagnostics for pseudo-labelled regression. *Knowledge-Based
-Systems*, forthcoming. Earlier version:
+Kurbucz, M. T. (2026). When to trust confidence thresholding:
+Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
 [doi:10.48550/arXiv.2605.12780](https://doi.org/10.48550/arXiv.2605.12780)
 
 Chernozhukov, V., Chetverikov, D., Demirer, M., Duflo, E., Hansen, C.,

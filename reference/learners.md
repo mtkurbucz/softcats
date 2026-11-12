@@ -72,7 +72,7 @@ print(x, ...)
   \[optional\] Further arguments passed to
   [`ranger::ranger()`](http://imbs-hl.github.io/ranger/reference/ranger.md)
   or
-  [`glmnet::cv.glmnet()`](https://rdrr.io/pkg/glmnet/man/cv.glmnet.html),
+  [`glmnet::cv.glmnet()`](https://glmnet.stanford.edu/reference/cv.glmnet.html),
   except those set by the learner (`x`, `y`, the weights, `seed` and
   `verbose`). Use the `seed` argument of
   [`soft_lm()`](https://mtkurbucz.github.io/softcats/reference/soft_lm.md)
@@ -98,7 +98,7 @@ print(x, ...)
 
   \[optional\] (character or numeric) Value of the penalty used for
   prediction, as in
-  [`glmnet::predict.cv.glmnet()`](https://rdrr.io/pkg/glmnet/man/predict.cv.glmnet.html)
+  [`glmnet::predict.cv.glmnet()`](https://glmnet.stanford.edu/reference/predict.cv.glmnet.html)
   (default: `"lambda.min"`).
 
 - fit:

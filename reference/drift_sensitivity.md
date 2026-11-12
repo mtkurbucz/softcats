@@ -93,9 +93,8 @@ Extending omitted variable bias. *Journal of the Royal Statistical
 Society Series B*, 82(1), 39–67.
 [doi:10.1111/rssb.12348](https://doi.org/10.1111/rssb.12348)
 
-Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-Calibration diagnostics for pseudo-labelled regression. *Knowledge-Based
-Systems*, forthcoming. Earlier version:
+Kurbucz, M. T. (2026). When to trust confidence thresholding:
+Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
 [doi:10.48550/arXiv.2605.12780](https://doi.org/10.48550/arXiv.2605.12780)
 
 ## Examples

@@ -84,8 +84,9 @@ a confidence threshold, and to run a regression on these labels.</p>
 <p>That step loses information. Observations whose probabilities are
 close to each other receive different labels, and uncertain observations
 are treated as certain. The estimated group difference is distorted (for
-two groups, typically attenuated), and its confidence interval can miss
-the true value far more often than the nominal level allows.</p>
+two groups, typically attenuated; Kurbucz 2026b), and its confidence
+interval can miss the true value far more often than the nominal level
+allows (Kurbucz 2026a).</p>
 <p>softcats keeps the categories soft: it estimates the group difference
 from the probabilities themselves.</p>
 </div>
@@ -244,17 +245,19 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>Y</mi><mo>∣</mo><mi>X</mi><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">m(X) = E[Y \mid
 X]</annotation></semantics></math>,</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>a</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo>−</mo><mi>m</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo><mo>=</mo><mi>E</mi><mo stretchy="false" form="prefix">[</mo><mi>a</mi><msup><mi>a</mi><mi>⊤</mi></msup><mo stretchy="false" form="postfix">]</mo><mspace width="0.167em"></mspace><mi>τ</mi><mo>,</mo></mrow><annotation encoding="application/x-tex"> E[a \, (Y - m(X))] = E[a a^\top] \, \tau , </annotation></semantics></math></p>
-<p>and <code><a href="../reference/soft_lm.html">soft_lm()</a></code> solves the sample version of this
-equation. The two nuisance functions are estimated by cross-fitting, and
+<p>and <code><a href="../reference/soft_lm.html">soft_lm()</a></code> solves the sample version of this equation
+(Kurbucz 2026a, 2026b). This is the partialling-out estimator of
+Robinson (1988) with the probabilities as regressors. The two nuisance
+functions are estimated by cross-fitting (Chernozhukov et al. 2018), and
 the equation is Neyman-orthogonal in both, so moderate errors in the
 nuisances do not bias the estimate to first order. Standard errors are
 robust sandwich estimates.</p>
 <p>The approach is related to regression calibration in the
-measurement-error literature, which replaces an error-prone variable by
-its conditional expectation. The difference is that the probabilities
-are first purged of the controls; only the residual variation identifies
-the effect, and calibration given the controls is what makes that
-residual variation informative.</p>
+measurement-error literature (Carroll et al. 2006), which replaces an
+error-prone variable by its conditional expectation. The difference is
+that the probabilities are first purged of the controls; only the
+residual variation identifies the effect, and calibration given the
+controls is what makes that residual variation informative.</p>
 </div>
 <div class="section level2">
 <h2 id="choosing-a-learner">Choosing a learner<a class="anchor" aria-label="anchor" href="#choosing-a-learner"></a>
@@ -574,15 +577,18 @@ by modelsummary and with <code><a href="https://rdrr.io/pkg/lmtest/man/coeftest.
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<p>Kurbucz, M. T. (2026). Coarsening latent-class probabilities:
-Directional distortion and coverage loss. arXiv preprint. <a href="doi:10.48550/arXiv.2608.11784" class="uri">doi:10.48550/arXiv.2608.11784</a></p>
-<p>Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-Calibration diagnostics for pseudo-labelled regression.
-<em>Knowledge-Based Systems</em>, forthcoming. Earlier version: <a href="doi:10.48550/arXiv.2605.12780" class="uri">doi:10.48550/arXiv.2605.12780</a></p>
+<p>Carroll, R. J., Ruppert, D., Stefanski, L. A. and Crainiceanu, C. M.
+(2006). <em>Measurement Error in Nonlinear Models: A Modern
+Perspective</em>, 2nd ed. Chapman &amp; Hall/CRC. <a href="doi:10.1201/9781420010138" class="uri">doi:10.1201/9781420010138</a></p>
 <p>Chernozhukov, V., Chetverikov, D., Demirer, M., Duflo, E., Hansen,
 C., Newey, W. and Robins, J. (2018). Double/debiased machine learning
 for treatment and structural parameters. <em>The Econometrics
 Journal</em>, 21(1), C1–C68. <a href="doi:10.1111/ectj.12097" class="uri">doi:10.1111/ectj.12097</a></p>
+<p>Kurbucz, M. T. (2026a). Coarsening latent-class probabilities:
+Directional distortion and coverage loss. arXiv preprint. <a href="doi:10.48550/arXiv.2608.11784" class="uri">doi:10.48550/arXiv.2608.11784</a></p>
+<p>Kurbucz, M. T. (2026b). When to trust confidence thresholding:
+Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
+<a href="doi:10.48550/arXiv.2605.12780" class="uri">doi:10.48550/arXiv.2605.12780</a></p>
 <p>Robinson, P. M. (1988). Root-N-consistent semiparametric regression.
 <em>Econometrica</em>, 56(4), 931–954. <a href="doi:10.2307/1912705" class="uri">doi:10.2307/1912705</a></p>
 </div>
