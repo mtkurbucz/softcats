@@ -5,6 +5,10 @@ template:
   bslib:
     primary: "#36765B"
 
+authors:
+  footer:
+    roles: [aut, cre]
+
 reference:
 - title: Estimation
   contents:
