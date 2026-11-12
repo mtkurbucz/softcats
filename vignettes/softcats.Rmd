@@ -37,8 +37,8 @@ run a regression on these labels.
 That step loses information. Observations whose probabilities are close to
 each other receive different labels, and uncertain observations are treated
 as certain. The estimated group difference is distorted (for two groups,
-typically attenuated), and its confidence interval can miss the true value far
-more often than the nominal level allows.
+typically attenuated; Kurbucz 2026b), and its confidence interval can miss the
+true value far more often than the nominal level allows (Kurbucz 2026a).
 
 softcats keeps the categories soft: it estimates the group difference from
 the probabilities themselves.
@@ -135,16 +135,19 @@ X]\),
 
 \[ E[a \, (Y - m(X))] = E[a a^\top] \, \tau , \]
 
-and `soft_lm()` solves the sample version of this equation. The two nuisance
-functions are estimated by cross-fitting, and the equation is
+and `soft_lm()` solves the sample version of this equation (Kurbucz 2026a,
+2026b). This is the partialling-out estimator of Robinson (1988) with the
+probabilities as regressors. The two nuisance functions are estimated by
+cross-fitting (Chernozhukov et al. 2018), and the equation is
 Neyman-orthogonal in both, so moderate errors in the nuisances do not bias the
 estimate to first order. Standard errors are robust sandwich estimates.
 
 The approach is related to regression calibration in the measurement-error
-literature, which replaces an error-prone variable by its conditional
-expectation. The difference is that the probabilities are first purged of the
-controls; only the residual variation identifies the effect, and calibration
-given the controls is what makes that residual variation informative.
+literature (Carroll et al. 2006), which replaces an error-prone variable by
+its conditional expectation. The difference is that the probabilities are
+first purged of the controls; only the residual variation identifies the
+effect, and calibration given the controls is what makes that residual
+variation informative.
 
 ## Choosing a learner
 
@@ -349,17 +352,21 @@ lmtest::coeftest(fit)
 
 ## References
 
-Kurbucz, M. T. (2026). Coarsening latent-class probabilities: Directional
-distortion and coverage loss. arXiv preprint. doi:10.48550/arXiv.2608.11784
-
-Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-Calibration diagnostics for pseudo-labelled regression. *Knowledge-Based
-Systems*, forthcoming. Earlier version: doi:10.48550/arXiv.2605.12780
+Carroll, R. J., Ruppert, D., Stefanski, L. A. and Crainiceanu, C. M. (2006).
+*Measurement Error in Nonlinear Models: A Modern Perspective*, 2nd ed.
+Chapman & Hall/CRC. doi:10.1201/9781420010138
 
 Chernozhukov, V., Chetverikov, D., Demirer, M., Duflo, E., Hansen, C., Newey,
 W. and Robins, J. (2018). Double/debiased machine learning for treatment and
 structural parameters. *The Econometrics Journal*, 21(1), C1--C68.
 doi:10.1111/ectj.12097
+
+Kurbucz, M. T. (2026a). Coarsening latent-class probabilities: Directional
+distortion and coverage loss. arXiv preprint. doi:10.48550/arXiv.2608.11784
+
+Kurbucz, M. T. (2026b). When to trust confidence thresholding: Calibration
+diagnostics for pseudo-labelled regression. arXiv preprint.
+doi:10.48550/arXiv.2605.12780
 
 Robinson, P. M. (1988). Root-N-consistent semiparametric regression.
 *Econometrica*, 56(4), 931--954. doi:10.2307/1912705

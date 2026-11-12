@@ -83,7 +83,8 @@ group is observed.
 For each category (one category suffices for a binary group),
   the indicator of that category is regressed by logistic regression on a
   polynomial in the logit of its probability and on the controls, with the
-  logit as an offset, so that the null model is perfect calibration.
+  logit as an offset, so that the null model is perfect calibration. This
+  extends the logistic recalibration model of Cox (1958).
   \itemize{
     \item The \emph{overall} test compares the full model with the
       offset-only model. It detects any departure from calibration,
@@ -123,8 +124,7 @@ regression. \emph{Biometrika}, 45(3--4), 562--565.
 Holm, S. (1979). A simple sequentially rejective multiple test procedure.
 \emph{Scandinavian Journal of Statistics}, 6(2), 65--70.
 
-Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-Calibration diagnostics for pseudo-labelled regression.
-\emph{Knowledge-Based Systems}, forthcoming. Earlier version:
+Kurbucz, M. T. (2026). When to trust confidence thresholding:
+Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
 \doi{10.48550/arXiv.2605.12780}
 }

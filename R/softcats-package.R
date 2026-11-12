@@ -40,9 +40,8 @@
 #' distortion and coverage loss. arXiv preprint.
 #' \doi{10.48550/arXiv.2608.11784}
 #'
-#' Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-#' Calibration diagnostics for pseudo-labelled regression.
-#' \emph{Knowledge-Based Systems}, forthcoming. Earlier version:
+#' Kurbucz, M. T. (2026). When to trust confidence thresholding:
+#' Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
 #' \doi{10.48550/arXiv.2605.12780}
 #' @keywords internal
 #'

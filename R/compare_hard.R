@@ -67,9 +67,8 @@
 #' distortion and coverage loss. arXiv preprint.
 #' \doi{10.48550/arXiv.2608.11784}
 #'
-#' Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-#' Calibration diagnostics for pseudo-labelled regression.
-#' \emph{Knowledge-Based Systems}, forthcoming. Earlier version:
+#' Kurbucz, M. T. (2026). When to trust confidence thresholding:
+#' Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
 #' \doi{10.48550/arXiv.2605.12780}
 #' @seealso \code{\link{kappa_curve}()} for the attenuation across
 #'   thresholds.
@@ -189,9 +188,8 @@ compare_hard <- function(object, rule = c("argmax", "threshold"),
 #'   \code{estimate_soft}. Thresholds at which the label does not vary give
 #'   \code{NA}. The print and plot methods return \code{x} invisibly.
 #' @references
-#' Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-#' Calibration diagnostics for pseudo-labelled regression.
-#' \emph{Knowledge-Based Systems}, forthcoming. Earlier version:
+#' Kurbucz, M. T. (2026). When to trust confidence thresholding:
+#' Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
 #' \doi{10.48550/arXiv.2605.12780}
 #' @export
 #' @examples

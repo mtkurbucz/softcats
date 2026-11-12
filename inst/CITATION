@@ -15,20 +15,18 @@ bibentry(
 )
 
 bibentry(
-  bibtype = "Article",
+  bibtype = "Misc",
   key = "kurbucz2026thresholding",
-  title = paste("When to Trust Static Confidence Thresholding: Calibration",
+  title = paste("When to Trust Confidence Thresholding: Calibration",
                 "Diagnostics for Pseudo-Labelled Regression"),
   author = person("Marcell T.", "Kurbucz"),
-  journal = "Knowledge-Based Systems",
   year = "2026",
-  note = "Forthcoming. An earlier version is available as arXiv:2605.12780",
-  url = "https://arxiv.org/abs/2605.12780",
+  note = "arXiv preprint arXiv:2605.12780",
+  doi = "10.48550/arXiv.2605.12780",
   textVersion = paste(
     "Kurbucz, M. T. (2026).",
-    "When to trust static confidence thresholding: Calibration diagnostics",
-    "for pseudo-labelled regression. Knowledge-Based Systems, forthcoming.",
-    "Earlier version: arXiv:2605.12780."
+    "When to trust confidence thresholding: Calibration diagnostics for",
+    "pseudo-labelled regression. arXiv preprint. doi:10.48550/arXiv.2605.12780"
   )
 )
 

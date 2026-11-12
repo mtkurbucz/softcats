@@ -87,8 +87,7 @@ Cinelli, C. and Hazlett, C. (2020). Making sense of sensitivity: Extending
 omitted variable bias. \emph{Journal of the Royal Statistical Society
 Series B}, 82(1), 39--67. \doi{10.1111/rssb.12348}
 
-Kurbucz, M. T. (2026). When to trust static confidence thresholding:
-Calibration diagnostics for pseudo-labelled regression.
-\emph{Knowledge-Based Systems}, forthcoming. Earlier version:
+Kurbucz, M. T. (2026). When to trust confidence thresholding:
+Calibration diagnostics for pseudo-labelled regression. arXiv preprint.
 \doi{10.48550/arXiv.2605.12780}
 }

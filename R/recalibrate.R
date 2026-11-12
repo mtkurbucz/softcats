@@ -50,12 +50,14 @@
 #'   category, the controls and, with \code{interactions = TRUE}, the
 #'   products of the log-odds and the controls. It is fitted by maximum
 #'   likelihood with the log-odds as an offset, so that zero coefficients
-#'   leave the probabilities unchanged. Factor controls enter as dummies, and
-#'   a level that does not occur in the labelled sample is treated as the
-#'   first level. Columns that are collinear in the labelled sample are
-#'   dropped. With few labelled observations, or when the miscalibration does
-#'   not depend on the controls, \code{interactions = FALSE} gives a map with
-#'   fewer parameters.
+#'   leave the probabilities unchanged. For two categories and without
+#'   controls, the map is the logistic recalibration model of Cox (1958).
+#'   Factor controls enter as dummies, and a level that does not occur in the
+#'   labelled sample is treated as the first level. Columns that are
+#'   collinear in the labelled sample are dropped. With few labelled
+#'   observations, or when the miscalibration does not depend on the
+#'   controls, \code{interactions = FALSE} gives a map with fewer
+#'   parameters.
 #'
 #'   The function proceeds in three steps.
 #'   \enumerate{
