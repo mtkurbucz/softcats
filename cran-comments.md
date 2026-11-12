@@ -1,7 +1,9 @@
 ## Test environments
 
-* macOS Sequoia 15.1 (aarch64-apple-darwin20), R 4.5.1
-* win-builder: Windows Server 2022 x64, R-devel (2026-11-07 r90850 ucrt)
+* local: macOS Sequoia 15.1 (aarch64-apple-darwin20), R 4.5.1
+* GitHub Actions: macOS (R-release), Windows (R-release), Ubuntu (R-devel,
+  R-release, R-oldrel-1)
+* win-builder: Windows Server 2022 x64, R-devel (2026-11-11 r90876 ucrt)
 
 ## R CMD check results
 
